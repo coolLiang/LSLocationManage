@@ -8,6 +8,8 @@
 
 #import "ViewController.h"
 #import "LocationManage.h"
+#import "Tools.h"
+
 
 @interface ViewController ()
 
@@ -17,9 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    
     
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -33,6 +32,11 @@
         NSLog(@"%@",address);
         
     }];
+    
+    
+    NSLog(@"%@",[Tools getCurrentViewController]);
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

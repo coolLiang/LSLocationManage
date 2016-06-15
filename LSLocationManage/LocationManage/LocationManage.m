@@ -131,8 +131,22 @@
 
 -(void)showDeniedTip
 {
-    UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-    [alvertView show];
+    
+    UIAlertController * alertControll = [UIAlertController alertControllerWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+       
+        
+        [[Tools getCurrentViewController]dismissViewControllerAnimated:YES completion:NULL];
+        
+    }];
+    
+    [alertControll addAction:confirmAction];
+    
+    [[Tools getCurrentViewController] presentViewController:alertControll animated:YES completion:NULL];
+    
+//    UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+//    [alvertView show];
 }
 
 @end

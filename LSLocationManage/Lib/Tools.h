@@ -12,6 +12,11 @@
 
 @interface Tools : NSObject
 
+//获取当前活动视图。
++(UIViewController *)getCurrentViewController;
+//获取一个视图的模态视图。
++(UIViewController *)getCurrentPresentViewController:(UIViewController *)vc;
+
 
 +(void)addTheHubToCurrentWindowsWithTitle:(NSString *)title;
 +(void)removeTheHubFromCurrentWindows;
