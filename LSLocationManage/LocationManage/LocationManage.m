@@ -139,6 +139,8 @@
 -(void)showDeniedTip
 {
     
+    [Tools removeTheHubFromCurrentWindows];
+    
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
         
         UIAlertController * alertControll = [UIAlertController alertControllerWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" preferredStyle:UIAlertControllerStyleAlert];
