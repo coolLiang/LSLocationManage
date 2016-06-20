@@ -105,6 +105,13 @@
             
             break;
             
+            //没有获取的定位服务。可能用户未拒绝访问。
+        case kCLAuthorizationStatusRestricted:
+            
+            [self showRestrictedTip];
+            
+            break;
+            
         case kCLAuthorizationStatusNotDetermined:
             if ([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)])
             {
@@ -155,6 +162,37 @@
         
     }
  
+}
+
+-(void)showRestrictedTip
+{
+    
+    [Tools removeTheHubFromCurrentWindows];
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
+    {
+        UIAlertController * alertControll = [UIAlertController alertControllerWithTitle:@"提示" message:@"获取系统定位服务失败,请查看设备是否开启定位服务" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            
+            [[Tools getCurrentViewController]dismissViewControllerAnimated:YES completion:NULL];
+            
+        }];
+        
+        [alertControll addAction:confirmAction];
+        
+        [[Tools getCurrentViewController] presentViewController:alertControll animated:YES completion:NULL];
+    }
+    
+    else
+    {
+        UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"获取系统定位服务失败,请查看设备是否开启定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alvertView show];
+    }
+    
+    
+   
 }
 
 @end
