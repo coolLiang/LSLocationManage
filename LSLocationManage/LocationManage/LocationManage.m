@@ -60,21 +60,21 @@
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations
 {
     
-    CLLocation *location=[locations firstObject];//取出第一个位置
+    if (_geocoder.isGeocoding) {
+        
+        return;
+        
+    }
     
+    CLLocation *location=[locations firstObject];//取出第一个位置
     
     //如果不需要实时定位，使用完即使关闭定位服务
     [_locationManager stopUpdatingLocation];
-    
-//    @weakify(self);
     
     __weak typeof(self) weakSelf = self;
     
     //反地理编码
     [_geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error) {
-        
-//        @strongify(self);
-        
         weakSelf.location = location.coordinate;
         CLPlacemark *placemark=[placemarks firstObject];
         
@@ -132,21 +132,29 @@
 -(void)showDeniedTip
 {
     
-    UIAlertController * alertControll = [UIAlertController alertControllerWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-       
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
         
-        [[Tools getCurrentViewController]dismissViewControllerAnimated:YES completion:NULL];
+        UIAlertController * alertControll = [UIAlertController alertControllerWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" preferredStyle:UIAlertControllerStyleAlert];
         
-    }];
+        UIAlertAction * confirmAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            
+            [[Tools getCurrentViewController]dismissViewControllerAnimated:YES completion:NULL];
+            
+        }];
+        
+        [alertControll addAction:confirmAction];
+        
+        [[Tools getCurrentViewController] presentViewController:alertControll animated:YES completion:NULL];
+    }
     
-    [alertControll addAction:confirmAction];
-    
-    [[Tools getCurrentViewController] presentViewController:alertControll animated:YES completion:NULL];
-    
-//    UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
-//    [alvertView show];
+    else
+    {
+            UIAlertView *alvertView=[[UIAlertView alloc]initWithTitle:@"提示" message:@"需要开启定位服务,请到设置->隐私,打开定位服务" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alvertView show];
+        
+    }
+ 
 }
 
 @end
