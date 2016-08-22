@@ -52,7 +52,7 @@
     {
         UINavigationController * chooseNavi = (UINavigationController *)rootVC;
         
-        return chooseNavi.visibleViewController;
+        return chooseNavi.topViewController;
     }
     
     else
