@@ -16,11 +16,16 @@
     UIWindow * window = [UIApplication sharedApplication].keyWindow;
     //然后。拿到根vc.
     UIViewController * rootVC = window.rootViewController;
-   //真实根视图。
+    //真实根视图。
     
     while (![rootVC isEqual:[self getCurrentPresentViewController:rootVC]]) {
         
         rootVC = [self getCurrentPresentViewController:rootVC];
+    }
+    //判断特殊情况,如果存在alertVC.
+    if ([rootVC isKindOfClass:[UIAlertController class]]) {
+        
+        rootVC = rootVC.presentingViewController;
     }
     
     //判断根视图
@@ -33,7 +38,8 @@
         if ([choosedVC isKindOfClass:[UINavigationController class]]) {
             
             UINavigationController * currentNavi = (UINavigationController *)choosedVC;
-            return currentNavi.visibleViewController;
+            //原为visiableVC。改为top.避免存在alertview.
+            return currentNavi.topViewController;
             
         }
         else if ([choosedVC isKindOfClass:[UIViewController class]])
